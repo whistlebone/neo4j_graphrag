@@ -3,6 +3,7 @@ from langchain_google_genai.chat_models import ChatGoogleGenerativeAI
 from langchain_groq.chat_models import ChatGroq
 from langchain_ollama.chat_models import ChatOllama
 from langchain_openai.chat_models import ChatOpenAI, AzureChatOpenAI
+from openai import AzureOpenAI
 from langchain_huggingface.chat_models.huggingface import ChatHuggingFace
 from src.utils.logger import get_logger
 
@@ -29,13 +30,20 @@ def fetch_llm(conf: LLMConf) -> BaseChatModel | None:
             deployment=conf.deployment,
             temperature=conf.temperature,
         )
-    elif conf.type == "azure-openai":
-        llm = AzureChatOpenAI(
-            model=conf.model,
+    # elif conf.type == "azure-openai":
+    #     llm = AzureChatOpenAI(
+    #         model=conf.model,
+    #         azure_endpoint=conf.endpoint,
+    #         azure_deployment=conf.deployment,
+    #         api_key=conf.api_key,
+    #         temperature=conf.temperature,
+    #         api_version=conf.api_version
+    #     )
+    elif conf.type=="azure-openai":
+        llm=AzureOpenAI(
+            api_key=conf.api_key,
             azure_endpoint=conf.endpoint,
             azure_deployment=conf.deployment,
-            api_key=conf.api_key,
-            temperature=conf.temperature,
             api_version=conf.api_version
         )
     elif conf.type == "groq":

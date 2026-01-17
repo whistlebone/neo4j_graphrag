@@ -1,4 +1,4 @@
-from langchain.prompts import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 
 def get_ontology_creation_prompt()-> PromptTemplate:
     """ 
@@ -24,7 +24,7 @@ def get_ontology_creation_prompt()-> PromptTemplate:
             allowed_relations: List[str]
         ```
 
-        You MUST return ONLY the Ontology inferred from the context given to you. Do not add anything else.
+        You MUST return ONLY the three Ontology properties in json string format. Do not add anything else.
         If the description of the domain is empty, just use the context texts as a source to infer the Ontology. 
 
         ### BEGIN! 
@@ -33,7 +33,6 @@ def get_ontology_creation_prompt()-> PromptTemplate:
     """
 
     template = PromptTemplate.from_template(prompt)
-
-    template.input_variables = ['domain_description','texts']
+    template.input_variables = ['domain_description', 'texts']
 
     return template

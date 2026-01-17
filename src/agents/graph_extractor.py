@@ -2,7 +2,7 @@ from src.utils.logger import get_logger
 from typing import Optional
 
 # from langchain_neo4j.graphs.graph_document import Relationship, Node
-from langchain.schema import Document
+from langchain_core.documents import Document
 
 from src.factory.llm import fetch_llm
 from src.config import LLMConf
@@ -33,15 +33,25 @@ class GraphExtractor:
         """ 
         Extracts a graph from a text.
         """
-
+        input_prompt=self.prompt.format(input_text=text)
         if self.llm is not None:
             try:
-                graph: _Graph = self.llm.with_structured_output(
-                    schema=_Graph
-                    ).invoke(
-                        input=self.prompt.format(input_text=text)
-                    )
-
+                raw=self.llm.chat.completions.parse(
+                messages=[
+                {
+                    "role": "system",
+                    "content": "You are a top-tier algorithm designed for extracting information in structured formats to build a Knowledge Graph."
+                },
+                {
+                    "role": "user",
+                    "content": input_prompt
+                }
+                ],
+                model="gpt-5.2",
+                max_completion_tokens=20000,
+                response_format=_Graph
+                )
+                graph=raw.choices[0].message.parsed
                 return graph 
                 
             except Exception as e:

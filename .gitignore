@@ -174,3 +174,4 @@ cython_debug/
 .vscode/
 
 config.env
+pem_files/

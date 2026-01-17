@@ -3,7 +3,7 @@ import magic
 from abc import abstractmethod
 from typing import List, Tuple, Optional, Dict, Any
 
-from langchain.schema import Document
+from langchain_core.documents import Document
 from langchain_community.document_loaders import TextLoader, Docx2txtLoader, PDFPlumberLoader, BSHTMLLoader
 from src.utils.logger import get_logger
 

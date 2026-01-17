@@ -32,11 +32,10 @@ class GraphMiner:
 
                 chunk.nodes = graph_doc.nodes
                 chunk.relationships = graph_doc.relationships
+                logger.info(f"Created a graph representation for {len(doc.chunks)} chunks.")
                 
             except Exception as e:
                 logger.warning(f"Error while mining graph: {e}")
-
-            logger.info(f"Created a graph representation for {len(doc.chunks)} chunks.")
         
         return doc
 
